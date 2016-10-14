@@ -16,6 +16,11 @@
 #include <string>
 #include <iostream>
 
+// basic file operations
+#include <fstream>
+#include <sstream>      // std::stringstream
+using namespace std;
+
 
 
 void error(const char *msg)
@@ -68,11 +73,22 @@ int main(int argc, char *argv[])
          
          temp++;
          //obtain the temp data using a system call
-         
+         //std::string TEMP = system("python 3_temps.py");
+         system("python obtainTemps.py > tempsOut.txt");
+         //now grab this data from the file
+         string line;
+         ifstream input("tempsOut.txt");
+         getline(input,line);
+         string TEMP = line;
+         getline(input,line);
+         TEMP = TEMP + "_" + line;
+         getline(input,line);
+         TEMP = TEMP + "_" + line;
+         input.close();
          
          //send this data to the client as a large string
-         std::string TEMP = std::to_string(temp);
-         TEMP = TEMP + "_" + TEMP + "_" + TEMP; 
+         //std::string TEMP = std::to_string(temp);
+         //TEMP = TEMP + "_" + TEMP + "_" + TEMP; 
          std::cout << "temp = " << TEMP << std::endl;
          const void * a = TEMP.c_str();
          n = write(newsockfd,a,255);
