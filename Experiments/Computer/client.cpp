@@ -1,31 +1,3 @@
-
-Skip to content
-This repository
-
-    Pull requests
-    Issues
-    Gist
-
-    @romanomatthew23
-
-1
-0
-
-    0
-
-romanomatthew23/lavaLamp
-Code
-Issues 0
-Pull requests 0
-Projects 0
-Wiki
-Pulse
-Graphs
-Settings
-lavaLamp/Experiments/Computer/client.cpp
-55f9e02 an hour ago
-@romanomatthew23 romanomatthew23 Create client.cpp
-73 lines (66 sloc) 1.76 KB
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -44,6 +16,12 @@ lavaLamp/Experiments/Computer/client.cpp
 #include <iostream>   // std::cout
 #include <string>     // std::string, std::stod
 
+// basic file operations
+#include <fstream>
+#include <sstream>      // std::stringstream
+using namespace std;
+
+
 void error(const char *msg)
 {
     perror(msg);
@@ -52,6 +30,8 @@ void error(const char *msg)
 
 int main(int argc, char *argv[])
 {
+	ofstream output("E1_data/tempData.txt");
+	if(!output.is_open()) return 0;
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
@@ -81,25 +61,42 @@ int main(int argc, char *argv[])
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
         error("ERROR connecting");
 
+	int index = 1;
 	while(1)
 	{
 		printf("Please enter the message: ");
 		bzero(buffer,256);
 		fgets(buffer,255,stdin);
+
+		//initiate the call to the server (ask for data)
 		n = write(sockfd,buffer,strlen(buffer));
 		if (n < 0) 
 		     error("ERROR writing to socket");
+
+		//read the data from the server
 		bzero(buffer,256);
 		n = read(sockfd,buffer,255);
 		if (n < 0) 
 			 error("ERROR reading from socket");
 		printf("%s\n",buffer);
+
+		//make a system call to take a picture (give it the index input)
+		string command = "./snapPic.sh";
+		command = command + " " + to_string(index);
+		system (command.c_str());
+
+		//obtain the timestamp
+		double timestamp = 10;
+
+		//save the data to the file (with index and timestamps)
+		output << buffer << "_" << index << "_" << timestamp << endl;
+
+		
+
+		//increment the index
+		index++;
 	}
+	output.close();
     close(sockfd);
     return 0;
 }
-
-    Contact GitHub API Training Shop Blog About 
-
-    © 2016 GitHub, Inc. Terms Privacy Security Status Help 
-
