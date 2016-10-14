@@ -1,7 +1,7 @@
 /* A simple server in the internet domain using TCP
    The port number is passed as an argument */
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> /* system, NULL, EXIT_FAILURE */
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h> 
@@ -15,6 +15,7 @@
 
 #include <string>
 #include <iostream>
+
 
 
 void error(const char *msg)
@@ -54,17 +55,22 @@ int main(int argc, char *argv[])
           error("ERROR on accept");
           
      int i=0;
+     
      double temp = 98.6;
      while(i++ < 10)
      {
          bzero(buffer,256);
-         //printf("This is me\n");
+         
+         //Let the client initiate (wait for them)
          n = read(newsockfd,buffer,255);
          if (n < 0) error("ERROR reading from socket");
          printf("Here is the message: %s\n",buffer);
-         //n = write(newsockfd,"I got your message",18);
+         
          temp++;
-         // The C++11 way:
+         //obtain the temp data using a system call
+         
+         
+         //send this data to the client as a large string
          std::string TEMP = std::to_string(temp);
          TEMP = TEMP + "_" + TEMP + "_" + TEMP; 
          std::cout << "temp = " << TEMP << std::endl;
