@@ -21,6 +21,10 @@
 #include <sstream>      // std::stringstream
 using namespace std;
 
+//system time stuff
+#include <chrono>
+#include <ctime>
+
 
 void error(const char *msg)
 {
@@ -61,15 +65,30 @@ int main(int argc, char *argv[])
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
         error("ERROR connecting");
 
+	//initialize variables for your experiment
 	int index = 1;
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+    start = std::chrono::system_clock::now();
+    
 	while(1)
 	{
-		printf("Please enter the message: ");
+		//make a system call to take a picture (give it the index input)
+		string command = "./snapPic.sh";
+		command = command + " " + to_string(index);
+		system (command.c_str());
+
+		//obtain the timestamp
+		end = std::chrono::system_clock::now();
+   		std::chrono::duration<double> elapsed_seconds = end-start;
+ 		double timestamp = elapsed_seconds.count();
+		//double timestamp = 10;
+
+		//printf("Please enter the message: ");
 		bzero(buffer,256);
-		fgets(buffer,255,stdin);
+		//fgets(buffer,255,stdin);
 
 		//initiate the call to the server (ask for data)
-		n = write(sockfd,buffer,strlen(buffer));
+		n = write(sockfd,"gimme data",strlen("gimme data"));
 		if (n < 0) 
 		     error("ERROR writing to socket");
 
@@ -80,18 +99,8 @@ int main(int argc, char *argv[])
 			 error("ERROR reading from socket");
 		printf("%s\n",buffer);
 
-		//make a system call to take a picture (give it the index input)
-		string command = "./snapPic.sh";
-		command = command + " " + to_string(index);
-		system (command.c_str());
-
-		//obtain the timestamp
-		double timestamp = 10;
-
 		//save the data to the file (with index and timestamps)
 		output << buffer << "_" << index << "_" << timestamp << endl;
-
-		
 
 		//increment the index
 		index++;
