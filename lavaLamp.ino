@@ -185,8 +185,7 @@ void calcHeat()
 
   //Simple Proportional Controller
   float error = desiredTemp - lampTemp;
-  int value = error * K;
-  heatVal = value % 256;
+  heatVal = min(error * K,255);
 }
 
 ////////////////////////////////////////////////////////////////////////////
