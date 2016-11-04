@@ -1,3 +1,6 @@
+//Debug (uncomment the line below to enable serial monitor debugging
+//#define DEBUG 1
+
 ////////////////////////////////////////////////////////////////////////////
 //                                                                        //
 //                             Global Variables                           //
@@ -39,7 +42,9 @@ float lampTemp = 25;  //lava lamp temp in Celsius
 ////////////////////////////////////////////////////////////////////////////
 void setup()
 {
-  //Serial.begin(9600);
+  #ifdef DEBUG
+  Serial.begin(9600);
+  #endif
   
   pinMode(heat, OUTPUT);  //heat pwm output
   pinMode(ledG, OUTPUT);  //led pwm outputs
@@ -83,7 +88,8 @@ void userInput()
 {   
   //read the dimmer value
   potVal = analogRead(trimPot) / 1024.0;
-  /*
+  
+  #ifdef DEBUG
   Serial.print("Pot Value: ");
   Serial.print(potVal);
   Serial.print("   mode: ");
@@ -97,7 +103,7 @@ void userInput()
   Serial.print("   white: ");
   Serial.print(whiteVal);
   Serial.print("\n");
-  */
+  #endif
 
   //read the button value
   oldButtonVal = buttonVal;
@@ -118,42 +124,54 @@ void calcLEDs()
   //obtain the color first
   switch(mode) {
       case 0:  //red
-         //Serial.print(" Red Mode\n");
+         #ifdef DEBUG
+         Serial.print(" Red Mode\n");
+         #endif
          redVal = 255;
          greenVal = 0;
          blueVal = 0;
          whiteVal = 0;
          break;
       case 1:  //green
-         //Serial.print(" Green Mode\n");
+         #ifdef DEBUG
+         Serial.print(" Green Mode\n");
+         #endif
          redVal = 0;
          greenVal = 255;
          blueVal = 0;
          whiteVal = 0;
          break;
       case 2: //blue
-         //Serial.print(" Blue Mode\n");
+         #ifdef DEBUG
+         Serial.print(" Blue Mode\n");
+         #endif
          redVal = 0;
          greenVal = 0;
          blueVal = 255;
          whiteVal = 0;
          break;
       case 3: //purple
-         //Serial.print(" Purple Mode\n");
+         #ifdef DEBUG
+         Serial.print(" Purple Mode\n");
+         #endif
          redVal = 255;
          greenVal = 0;
          blueVal = 255;
          whiteVal = 0;
          break;
       case 4: //aqua
-         //Serial.print(" Aqua Mode\n");
+         #ifdef DEBUG
+         Serial.print(" Aqua Mode\n");
+         #endif
          redVal = 0;
          greenVal = 255;
          blueVal = 255;
          whiteVal = 0;
          break;
       default:
-         //Serial.print(" Default Mode\n");
+         #ifdef DEBUG
+         Serial.print(" Default Mode\n");
+         #endif
          redVal = 0;
          greenVal = 0;
          blueVal = 0;
