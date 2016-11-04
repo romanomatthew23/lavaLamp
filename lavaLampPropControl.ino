@@ -1,4 +1,4 @@
-//Debug (uncomment the line below to enable serial monitor debugging
+//Debug (uncomment the line below to enable serial monitor debugging)
 //#define DEBUG 1
 
 ////////////////////////////////////////////////////////////////////////////
