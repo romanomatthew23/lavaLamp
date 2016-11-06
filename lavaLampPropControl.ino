@@ -7,15 +7,15 @@
 //                                                                        //
 ////////////////////////////////////////////////////////////////////////////
 //Pin Values
-const int trimPot = A5;//PC5 (A5 pin19) is the trimpot input
-const int button = 2;  //PD2 (pin2) is button input
-const int heat = 10;   //PB2 (pin10) is the heat PWM output
-const int ledG = 3;    //PD3 (pin3) is LED1 (assume is G) TODO: Check these assumptions
-const int ledB = 5;    //PD5 (pin5) is LED2 (assume is B)
-const int ledR = 6;    //PD6 (pin6) is LED3 (assume is R)
-const int ledW = 9;    //PB1 (pin9) is LED4 (assume is W)
-const int tempHeat=23; //PC0 (pin23) is Heat Source Temp Sensor
-const int tempLamp=24; //PC1 (pin24) is Lava Lamp Temp Sensor
+const int trimPot = A2;//PC2 (25) is the trimpot input
+const int button = A5; //PC5 (28) is button input
+const int heat = 10;   //PB2 (17) is the heat PWM output
+const int ledG = 3;    //PD3 (16) is LED1 (assume is G) TODO: Check these assumptions
+const int ledB = 5;    //PD5 (5) is LED2 (assume is B)
+const int ledR = 6;    //PD6 (6) is LED3 (assume is R)
+const int ledW = 9;    //PB1 (15) is LED4 (assume is W)
+const int tempHeat=A0; //PC0 (23) is Heat Source Temp Sensor
+const int tempLamp=A1; //PC1 (24) is Lava Lamp Temp Sensor
 
 //Controller Parameters TODO Set These!!
 float desiredTemp = 60;   //Desired Lava Lamp Tempin degrees Celsius
