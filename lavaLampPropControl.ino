@@ -1,4 +1,4 @@
-//Debug (uncomment the line below to enable serial monitor debugging)
+//Debug (uncomment the line below to enable serial monitor debugging
 //#define DEBUG 1
 
 ////////////////////////////////////////////////////////////////////////////
@@ -7,15 +7,15 @@
 //                                                                        //
 ////////////////////////////////////////////////////////////////////////////
 //Pin Values
-const int trimPot = A2;//PC2 (25) is the trimpot input
-const int button = A5; //PC5 (28) is button input
-const int heat = 10;   //PB2 (17) is the heat PWM output
-const int ledG = 3;    //PD3 (16) is LED1 (assume is G) TODO: Check these assumptions
-const int ledB = 5;    //PD5 (5) is LED2 (assume is B)
-const int ledR = 6;    //PD6 (6) is LED3 (assume is R)
-const int ledW = 9;    //PB1 (15) is LED4 (assume is W)
-const int tempHeat=A0; //PC0 (23) is Heat Source Temp Sensor
-const int tempLamp=A1; //PC1 (24) is Lava Lamp Temp Sensor
+const int trimPot = A5;//PC5 (A5 pin19) is the trimpot input
+const int button = 2;  //PD2 (pin2) is button input
+const int heat = 10;   //PB2 (pin10) is the heat PWM output
+const int ledG = 3;    //PD3 (pin3) is LED1 (assume is G) TODO: Check these assumptions
+const int ledB = 5;    //PD5 (pin5) is LED2 (assume is B)
+const int ledR = 6;    //PD6 (pin6) is LED3 (assume is R)
+const int ledW = 9;    //PB1 (pin9) is LED4 (assume is W)
+const int tempHeat=23; //PC0 (pin23) is Heat Source Temp Sensor
+const int tempLamp=24; //PC1 (pin24) is Lava Lamp Temp Sensor
 
 //Controller Parameters TODO Set These!!
 float desiredTemp = 60;   //Desired Lava Lamp Tempin degrees Celsius
@@ -67,9 +67,9 @@ void loop()
   setLEDs();    //set LED PWM Signals;
   
   //Heat
-  //tempInput();  //Read Temperature Sensors
-  //calcHeat();   //Calculate Heat PWM Signals
-  //setHeat();    //Set Heat PWM Signals
+  tempInput();  //Read Temperature Sensors
+  calcHeat();   //Calculate Heat PWM Signals
+  setHeat();    //Set Heat PWM Signals
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -215,6 +215,14 @@ void tempInput()
   //read the Lava Lamp Temperature Sensor
   voltage = analogRead(tempLamp) / 1024 * 5.0;
   lampTemp = (voltage - 0.5)*100;
+
+  #ifdef DEBUG
+  Serial.print(" heatTemp: ");
+  Serial.print(heatTemp);
+  Serial.print("  lampTemp: ");
+  Serial.print(lavaTemp);
+  Serial.print("\n");
+  #endif
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -234,6 +242,12 @@ void calcHeat()
   //Simple Proportional Controller
   float error = desiredTemp - lampTemp;
   heatVal = min(error * K,255);
+
+  #ifdef DEBUG
+  Serial.print("Heat PWM Val: ");
+  Serial.print(heatVal);
+  Serial.print("\n");
+  #endif
 }
 
 ////////////////////////////////////////////////////////////////////////////
