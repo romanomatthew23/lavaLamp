@@ -1,11 +1,6 @@
 //Pin Values
-const int trimPot = A5; //PC5 (A5 pin19) is the trimpot input
-const int heat = 10;   //PB2 (pin10) is the heat PWM output
-const int led1 = 3;    //PD3 (pin3) is LED1
-const int led2 = 5;    //PD5 (pin5) is LED2
-const int led3 = 6;    //PD6 (pin6) is LED3
-const int led4 = 9;    //PB1 (pin9) is LED4
-const int button = 2;  //PD2 (pin2) is button input
+const int trimPot = A2; //trimpot input
+const int button = A5;  //button input
 
 //Other Global Variables
 int redVal = 0;
