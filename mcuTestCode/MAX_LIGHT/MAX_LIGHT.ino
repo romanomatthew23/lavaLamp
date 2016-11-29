@@ -18,8 +18,8 @@ const int tempHeat=A0; //PC0 (pin23) is Heat Source Temp Sensor
 const int tempLamp=A1; //PC1 (pin24) is Lava Lamp Temp Sensor
 
 //Controller Parameters TODO Set These!!
-float desiredTemp = 45;   //Desired Lava Lamp Tempin degrees Celsius
-float maxHeatTemp = 90;   //Highest Allowable Heat Source Temp
+float desiredTemp = 30;   //Desired Lava Lamp Tempin degrees Celsius
+float maxHeatTemp = 35;   //Highest Allowable Heat Source Temp
 float K = 20;              //Proportional gain constant
 float maxInHeat = 100;    //100 W
 
@@ -72,20 +72,8 @@ void setup()
 ////////////////////////////////////////////////////////////////////////////
 void loop()
 {
-  //Light
-  userInput();  //Read User Input (Button, Dimmer)
-  calcLEDs();   //Calculate LED PWM Signals
+
   setLEDs();    //set LED PWM Signals;
-  
-  //Heat
-  tempInput();  //Read Temperature Sensors
-  calcHeat();   //Calculate Heat PWM Signals
-  setHeat();    //Set Heat PWM Signals
-
-  //#ifdef DEBUG
-  //Serial.print("\n");
-  //#endif
-
   delay(10);
 }
 
@@ -222,10 +210,10 @@ void calcLEDs()
 ////////////////////////////////////////////////////////////////////////////
 void setLEDs() 
 {
-  analogWrite(ledR,redVal);
-  analogWrite(ledG,greenVal);
-  analogWrite(ledB,blueVal);
-  analogWrite(ledW,whiteVal);      
+  analogWrite(ledR,255);
+  analogWrite(ledG,255);
+  analogWrite(ledB,255);
+  analogWrite(ledW,255);      
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -322,7 +310,7 @@ void calcHeat()
 
   //Simple Proportional Controller
   float error = desiredTemp - lampTempAvg;
-  heatVal = min(error * K / maxInHeat * 230,230);   //TODO currently limited to 1/2 power. Set to full later
+  heatVal = min(error * K / maxInHeat * 128,128);   //TODO currently limited to 1/2 power. Set to full later
   //heatVal = min(error * K,255);
 
   #ifdef DEBUG
